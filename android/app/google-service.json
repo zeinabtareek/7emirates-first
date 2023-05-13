@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "510571579912",
+    "project_id": "seven-emirates",
+    "storage_bucket": "seven-emirates.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510571579912:android:70814ce1e53285f4df9fbd",
+        "android_client_info": {
+          "package_name": "com.ebtasm.sevenemirates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510571579912-occ0rkfn8i4scm20m8u40lsiepi5st52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebtasm.sevenemirates",
+            "certificate_hash": "106c3948f04e892c9dc81fa1dd66cd476fa139a1"
+          }
+        },
+        {
+          "client_id": "510571579912-c98cgv65cs5op4pc17no4598hipmv8dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWD2YFpMRp3zvp8ByW6-pYZ3tn-9Whn_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510571579912-c98cgv65cs5op4pc17no4598hipmv8dv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
