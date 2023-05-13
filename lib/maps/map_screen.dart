@@ -25,9 +25,11 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> with RelativeScale {
-  double lat = 24.319831;
-  double lng = 54.799529;
-  LatLng _kMapCenter = LatLng(24.319831, 54.799529);
+  // double lat = 24.319831;
+  // double lng = 54.799529;
+  LatLng? _kMapCenter = LatLng(0.0, 0.0);
+
+  // LatLng _kMapCenter = LatLng(24.319831, 54.799529);
 
   late GoogleMapController _mapcontroller;
   late CameraPosition _kInitialPosition;
@@ -52,16 +54,23 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
   var uuid = new Uuid();
   String _sessionToken = '';
   bool _keyboardVisible = false;
+  bool loading = true;
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-    _kMapCenter = LatLng(lat, lng);
+    loading = true;
+    // _kMapCenter = LatLng(lat, lng);
 
-    _kInitialPosition =
-        CameraPosition(target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+    _kInitialPosition = CameraPosition(
+        target: _kMapCenter ?? LatLng(0.0, 0.0),
+        zoom: 18.0,
+        tilt: 0,
+        bearing: 0);
     getLocation();
-    getLocationFromPoints();
+    loading = false;
+    setState(() {});
+    // getLocationFromPoints();
   }
 
   @override
@@ -78,7 +87,10 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
       setState(() {
         _kMapCenter = LatLng(position.latitude, position.longitude);
         _kInitialPosition = CameraPosition(
-            target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+            target: _kMapCenter ?? LatLng(0.0, 0.0),
+            zoom: 18.0,
+            tilt: 0,
+            bearing: 0);
       });
     }
     _serviceEnabled = await location.serviceEnabled();
@@ -99,16 +111,19 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
     setState(() {
       _kMapCenter = LatLng(_locationData!.latitude!.toDouble(),
           _locationData!.longitude!.toDouble());
-      _kInitialPosition =
-          CameraPosition(target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+      _kInitialPosition = CameraPosition(
+          target: _kMapCenter ?? LatLng(0.0, 0.0),
+          zoom: 18.0,
+          tilt: 0,
+          bearing: 0);
     });
 
     _mapcontroller.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: _kMapCenter, zoom: 15),
+        CameraPosition(target: _kMapCenter ?? LatLng(0.0, 0.0), zoom: 15),
       ),
     );
-    getLocationFromPoints();
+    await getLocationFromPoints();
   }
 
   @override
@@ -133,11 +148,15 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
           child: SafeArea(
         top: false,
         child: Scaffold(
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: mapWidget(),
-          ),
+          body: loading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: mapWidget(),
+                ),
         ),
       )),
     );
@@ -375,21 +394,24 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
         ));
   }
 
-  void _onCameraMove(CameraPosition position) {
+  Future<void> _onCameraMove(CameraPosition position) async {
     setState(() {
       _kMapCenter = position.target;
     });
 
     // _mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _kMapCenter,zoom: 13)));
-    _kInitialPosition =
-        CameraPosition(target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+    _kInitialPosition = CameraPosition(
+        target: _kMapCenter ?? LatLng(0.0, 0.0),
+        zoom: 18.0,
+        tilt: 0,
+        bearing: 0);
     getLocationFromPoints();
   }
 
   Set<Marker> _createMarker() {
     locMarker = Marker(
         markerId: MarkerId("Pin Location"),
-        position: _kMapCenter,
+        position: _kMapCenter ?? LatLng(0.0, 0.0),
         draggable: false,
         //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
         infoWindow: InfoWindow(title: Lang('Here', 'هنا')),
@@ -400,7 +422,10 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
           setState(() {
             _kMapCenter = val;
             _kInitialPosition = CameraPosition(
-                target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+                target: _kMapCenter ?? LatLng(0.0, 0.0),
+                zoom: 18.0,
+                tilt: 0,
+                bearing: 0);
             getLocationFromPoints();
           });
         });
@@ -426,27 +451,25 @@ class _MapScreenState extends State<MapScreen> with RelativeScale {
   getLocationFromPoints() async {
     //  placemarks = await placemarkFromCoordinates(locMarker.position.latitude, locMarker.position.longitude);
     placemarks = await placemarkFromCoordinates(
-        _kMapCenter.latitude, _kMapCenter.longitude);
-try{
-    setState(() {
-      address = placemarks[0].street.toString() +
-          ', ' +
-          placemarks[0].thoroughfare.toString() +
-          ', ' +
-          placemarks[0].subLocality.toString() +
-          ', ' +
-          placemarks[0].locality.toString() +
-          ' ' +
-          placemarks[0].postalCode.toString();
+        _kMapCenter?.latitude ?? 0.0, _kMapCenter?.longitude ?? 0.0);
+    try {
+      setState(() {
+        address = placemarks[0].street.toString() +
+            ', ' +
+            placemarks[0].thoroughfare.toString() +
+            ', ' +
+            placemarks[0].subLocality.toString() +
+            ', ' +
+            placemarks[0].locality.toString() +
+            ' ' +
+            placemarks[0].postalCode.toString();
 
-      city = placemarks[0].locality.toString();
-      ETname.text = placemarks[0].locality.toString();
-      ETstreet.text = address;
-      country = placemarks[0].country.toString();
-    });
-  }catch(e){
-
-  }
+        city = placemarks[0].locality.toString();
+        ETname.text = placemarks[0].locality.toString();
+        ETstreet.text = address;
+        country = placemarks[0].country.toString();
+      });
+    } catch (e) {}
   }
 
   addressBar() {
@@ -512,8 +535,8 @@ try{
                                   address =
                                       address.toString().replaceAll('/', ' ');
                                   Navigator.of(context).pop({
-                                    'lat': _kMapCenter.latitude.toString(),
-                                    'long': _kMapCenter.longitude.toString(),
+                                    'lat': _kMapCenter?.latitude.toString(),
+                                    'long': _kMapCenter?.longitude.toString(),
                                     'address': address.toString(),
                                     'city': ETname.text.toString(),
                                     'country': country.toString()
@@ -560,14 +583,17 @@ try{
       _kMapCenter =
           LatLng(double.parse(lat.toString()), double.parse(lng.toString()));
       _mapcontroller.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: _kMapCenter, zoom: 13)));
+          CameraPosition(target: _kMapCenter ?? LatLng(0.0, 0.0), zoom: 13)));
       FocusScope.of(context).unfocus();
       _placeList.clear();
       ETsearch.clear();
     });
 
-    _kInitialPosition =
-        CameraPosition(target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
+    _kInitialPosition = CameraPosition(
+        target: _kMapCenter ?? LatLng(0.0, 0.0),
+        zoom: 18.0,
+        tilt: 0,
+        bearing: 0);
     getLocationFromPoints();
   }
 
@@ -579,7 +605,7 @@ try{
     String request =
         '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
     var response = await http.get(Uri.parse(request));
-    log('${response.body}',name: 'data');
+    log('${response.body}', name: 'data');
     if (response.statusCode == 200) {
       setState(() {
         _placeList = json.decode(response.body)['predictions'];

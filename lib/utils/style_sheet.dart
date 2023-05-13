@@ -186,7 +186,7 @@ BoxDecoration decoration_border(
     double bottomRight) {
   return BoxDecoration(
     color: color,
-    border: Border.all(color: bordercolor!, width: borderWidth),
+    border: Border.all(color: bordercolor??Colors.grey, width: borderWidth),
     borderRadius: BorderRadius.only(
       topLeft: Radius.circular(topLeft),
       topRight: Radius.circular(topRight),
