@@ -1078,7 +1078,6 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
       barrierDismissible: true,
     );
   }
-
   _setCountry({
     required String code,
     required String eng,

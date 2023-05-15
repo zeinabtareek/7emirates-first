@@ -400,8 +400,8 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
         ),
       )),]
     );
-
   }
+
   categoryWidget() {
     return Stack(
       children:[
