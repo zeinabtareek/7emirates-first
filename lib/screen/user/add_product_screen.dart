@@ -34,6 +34,7 @@ import 'dashboard.dart';
 
 class AddProduct extends StatefulWidget {
   String pid = '';
+
   AddProduct({Key? key, this.pid = ''}) : super(key: key);
 
   @override
@@ -233,6 +234,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
       mapCity = Provider.of<AppSetting>(context, listen: false).mapCity;
       ETaddress.text = mapAddress;
     });
+    print("ffffffff" + uId);
     _getData();
   }
 
@@ -1209,6 +1211,8 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                                     .toString();
                                 categoryID =
                                     Const.categoryList[i]['c_id'].toString();
+                                print("george$categoryID");
+                                print("george$categoryName");
                                 fieldList.clear();
                                 //ETlist.clear();
                                 for (int i = 0;
@@ -1507,52 +1511,57 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                       SizedBox(
                         width: sy(20),
                       ),
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              titleCard(Lang("Unit  ", " وحدة ")),
-                              GestureDetector(
-                                  onTap: () {
-                                    _popUnit(context);
-                                  },
-                                  child: Container(
-                                    width: Width(context),
-                                    decoration: decoration_border(
-                                        fc_textfield_bg,
-                                        fc_textfield_bg,
-                                        sy(1),
-                                        sy(5),
-                                        sy(5),
-                                        sy(5),
-                                        sy(5)),
-                                    height: sy(28),
-                                    padding: EdgeInsets.fromLTRB(
-                                        sy(5), sy(0), sy(3), sy(0)),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      (quantityUnit == '')
-                                          ? Lang(
-                                              " Select unit ", " حدد الوحدة ")
-                                          : quantityUnit,
-                                      style:
-                                          ts_Regular(sy(n), Colors.grey[800]),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
+                      categoryName == "Vehicles"
+                          ? SizedBox()
+                          :
+                           Expanded(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    titleCard(Lang("Unit  ", " وحدة ")),
+                                    GestureDetector(
+                                        onTap: () {
+                                          _popUnit(context);
+                                        },
+                                        child: Container(
+                                          width: Width(context),
+                                          decoration: decoration_border(
+                                              fc_textfield_bg,
+                                              fc_textfield_bg,
+                                              sy(1),
+                                              sy(5),
+                                              sy(5),
+                                              sy(5),
+                                              sy(5)),
+                                          height: sy(28),
+                                          padding: EdgeInsets.fromLTRB(
+                                              sy(5), sy(0), sy(3), sy(0)),
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            (quantityUnit == '')
+                                                ? Lang(" Select unit ",
+                                                    " حدد الوحدة ")
+                                                : quantityUnit,
+                                            style: ts_Regular(
+                                                sy(n), Colors.grey[800]),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                   SizedBox(
                     height: sy(5),
                   ),
 
-                  Row(
+                  categoryName == "Vehicles"
+                      ? SizedBox()
+                      :    Row(
                     children: [
                       Text(Lang('Unit : ', 'وحدة  '),
                           style: ts_Regular(sy(8), Colors.grey[900])),
