@@ -1312,26 +1312,32 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                   ),
 
                   //Product category
-                  titleCard(Lang(" Category ", " فئة ")),
-                  GestureDetector(
-                      onTap: () {
-                        _popsubCategory(context);
-                      },
-                      child: Container(
-                        width: Width(context),
-                        decoration: decoration_border(fc_textfield_bg,
-                            fc_textfield_bg, sy(1), sy(5), sy(5), sy(5), sy(5)),
-                        height: sy(28),
-                        padding:
-                            EdgeInsets.fromLTRB(sy(5), sy(0), sy(3), sy(0)),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          (subCategoryID == '')
-                              ? Lang(" Select Category ", " اختر الفئة ")
-                              : subCategoryName,
-                          style: ts_Regular(sy(n), fc_2),
-                        ),
-                      )),
+                  categoryID == "2"
+                      ? SizedBox()
+                      :   Column(
+                  children: [
+                    titleCard(Lang(" Category ", " فئة ")),
+                    GestureDetector(
+                        onTap: () {
+                          _popsubCategory(context);
+                        },
+                        child: Container(
+                          width: Width(context),
+                          decoration: decoration_border(fc_textfield_bg,
+                              fc_textfield_bg, sy(1), sy(5), sy(5), sy(5), sy(5)),
+                          height: sy(28),
+                          padding:
+                          EdgeInsets.fromLTRB(sy(5), sy(0), sy(3), sy(0)),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            (subCategoryID == '')
+                                ? Lang(" Select Category ", " اختر الفئة ")
+                                : subCategoryName,
+                            style: ts_Regular(sy(n), fc_2),
+                          ),
+                        )),
+                  ],
+                ),
                   SizedBox(
                     height: sy(15),
                   ),
@@ -1447,7 +1453,9 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                   SizedBox(
                     height: sy(15),
                   ),
-                  Row(
+                  categoryID == "2"
+                      ? SizedBox()
+                      :   Row(
                     children: [
                       Expanded(
                         child: Column(
@@ -1511,7 +1519,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                       SizedBox(
                         width: sy(20),
                       ),
-                      categoryName == "Vehicles"
+                      categoryID == "2"
                           ? SizedBox()
                           :
                            Expanded(
@@ -1559,7 +1567,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                     height: sy(5),
                   ),
 
-                  categoryName == "Vehicles"
+                  categoryID == "2"
                       ? SizedBox()
                       :    Row(
                     children: [
