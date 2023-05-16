@@ -61,7 +61,7 @@ dependencies:
   share: ^2.0.4
   zoom_widget: ^0.2.1
   flutter_switch: ^0.3.2
-  location: ^4.4.0
+  location:
   geolocator: ^9.0.1
   geocoding: ^2.0.5
   google_maps_flutter: ^2.2.0

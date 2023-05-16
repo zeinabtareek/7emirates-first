@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mailer/mailer.dart';
@@ -97,6 +98,64 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
         )));
   }
 */
+  _sendOTP2 ({phone}) async {
+    String myNum =
+    ETphone.text.startsWith('0') ? ETphone.text.substring(1) : ETphone.text;
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: '+$myNum' ?? "",
+        verificationCompleted: (PhoneAuthCredential phoneAuthCredentials) async {
+          await FirebaseAuth.instance
+              .signInWithCredential(phoneAuthCredentials)
+              .then((value) {
+            if (value.user != null) {
+              print("user verified");
+            }
+            else
+            {
+              print('failed');
+            }
+            // CacheHelper.loginShared!.phone=fullPhoneNumber;
+          });
+
+        },
+        verificationFailed: (FirebaseAuthException e) {
+         // Navigator.pop(context);
+          // Get.defaultDialog(
+          //     content: Text("${e.code}".tr) ,title: 'تعذر الإتصال بالإنترنت' );
+          print(e.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          // verification = verificationId;
+          Navigator.push(
+              context,
+              LeftOpenScreen(
+                  widget: OtpScreen(
+                    verificationId: verificationId,
+                    countryId: countryId,
+                    getPhone: myNum,
+                    getEmail: ETemail.text.toString(),
+                    getCountry: countryName,
+                    getCountryArab: countryNameArab,
+                    getCountryCode: countryCodeint,
+                    starting: widget.starting,
+                  )));
+
+
+          SharedStoreUtils.setValue(Const.OTP, myOTP);
+          SharedStoreUtils.setValue(Const.COUNTRY_CODE, countryCodeint);
+          SharedStoreUtils.setValue(Const.COUNTRY_NAME, countryName);
+          SharedStoreUtils.setValue(Const.COUNTRY_NAME_ARAB, countryNameArab);
+          SharedStoreUtils.setValue(Const.COUNTRY_FLAG, countryFlag);
+          Provider.of<AppSetting>(context, listen: false).country = countryName;
+          Provider.of<AppSetting>(context, listen: false).countryId = countryCodeint;
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+
+        },
+        timeout: Duration(minutes: 1),
+      );
+    }
+
   _sendOTP() async {
     String myNum =
         ETphone.text.startsWith('0') ? ETphone.text.substring(1) : ETphone.text;
@@ -111,6 +170,8 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
 
     String whatsappUrl =
         "https://app.rivet.solutions/api/v2/SendSMS?ApiKey=${Const.SMSGATEWAY}&Message=$myMsg&MobileNumbers=$contry_code$myNum";
+        // "https://app.rivet.solutions/api/v2/SendSMS?ApiKey=${Const.SMSGATEWAY}&Message=$myMsg&MobileNumbers=$contry_code$myNum";
+    // print()
     await SendCodeHelper.instance.sendPhoneCode(
       onCodeSend: (verificationId) {
         Navigator.push(
@@ -300,10 +361,10 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
     getSharedStore();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -808,7 +869,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
                           onTap: () {
                             setState(() {
                               pageController.animateToPage(1,
-                                  duration: Duration(milliseconds: 700),
+                                  duration: Duration(milliseconds: 7000),
                                   curve: Curves.linear);
                             });
                           },
@@ -837,6 +898,8 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
 
   _openOTPScreen() {
     if (ETphone.text != '') {
+      // _sendOTP2( );
+      // _sendOTP2(phone: '+2001112134871');
       _sendOTP();
     } else {
       Pop.successTop(
@@ -871,7 +934,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
                 child: Container(
                   child: SafeArea(
                     child: StatefulBuilder(
-                      builder: (mcontext, setState) {
+                      builder: (context, setState) {
                         return Stack(
                           children: [
                             Positioned(
@@ -951,7 +1014,20 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
                                           ),
                                           behavior: HitTestBehavior.translucent,
                                           onTap: () {
-                                            _setCountry(
+                                            // setState(() {
+                                              _setCountry(
+                                              //   code: '20',
+                                              context: context,
+                                              // eng: 'egypt',
+                                              // ara: 'egypt',
+                                              // img: filterCountryList[i]
+                                              //             ['sortname']
+                                              //         .toString()
+                                              //         .toLowerCase() +
+                                              //     '.png',
+                                              // countryId: filterCountryList[i]
+                                              //         ['id']
+                                              //     .toString(),
                                               code: filterCountryList[i]
                                                       ['phoneCode']
                                                   .toString(),
@@ -965,7 +1041,10 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
                                               countryId: filterCountryList[i]
                                                       ['id']
                                                   .toString(),
+
+
                                             );
+                                            // });
                                           },
                                         ),
                                       SizedBox(
@@ -1084,6 +1163,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
     required String ara,
     required String img,
     required String countryId,
+    required BuildContext context,
   }) {
     setState(() {
       countryName = eng;
@@ -1102,6 +1182,9 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen>
       Navigator.of(context).pop(true);
     });
   }
+
+
+
 
   /*_popTerms() {
     var htmlData = """
