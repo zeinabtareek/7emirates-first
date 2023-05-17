@@ -135,6 +135,9 @@ class _UserProfileState extends State<UserProfile> with RelativeScale {
     // TODO: implement build
 
     initRelativeScaler(context);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: bgColor,
+    ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: Provider.of<AppSetting>(context).appTheam,
@@ -148,13 +151,15 @@ class _UserProfileState extends State<UserProfile> with RelativeScale {
         );
       },
       home: Container(
-          color: fc_bg,
+          // color: Colors.red,
+          color: bgColor,
+          // color: fc_bg,
           child: SafeArea(
             child: ScaffoldMessenger(
               key: _scaffoldKey,
               child: Scaffold(
                 // bottomNavigationBar: bottomNavigation(),
-                backgroundColor: Colors.white,
+                backgroundColor: fc_bg,
                 //resizeToAvoidBottomPadding: false,
                 bottomNavigationBar: BottomNavigationWidget(
                   mcontext: context,

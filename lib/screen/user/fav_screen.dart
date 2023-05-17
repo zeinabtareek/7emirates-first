@@ -158,22 +158,22 @@ class _FavScreenState extends State<FavScreen> with RelativeScale {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Container(
+                //   // height: sy(45),
+                //   alignment: Alignment.topLeft,
+                //   child: Text(
+                //       Lang("You can find  ", " يمكنك إيجاد "),
+                //     style: ts_Bold(sy(xl), fc_1),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: sy(5),
+                // ),
                 Container(
                   // height: sy(45),
                   alignment: Alignment.topLeft,
                   child: Text(
-                      Lang("You can find  ", " يمكنك إيجاد "),
-                    style: ts_Bold(sy(xl), fc_1),
-                  ),
-                ),
-                SizedBox(
-                  height: sy(5),
-                ),
-                Container(
-                  // height: sy(45),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                   Lang(" some favourites ", " بعض المفضلة "),
+                   Lang("  favourites ", "   المفضلة "),
                     style: ts_Bold(sy(xl), fc_1),
                   ),
                 ),
@@ -193,7 +193,7 @@ class _FavScreenState extends State<FavScreen> with RelativeScale {
     return Container(
       width: Width(context),
       height: Height(context),
-      color: fc_bg_mild,
+      color: fc_bg,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,6 +206,7 @@ class _FavScreenState extends State<FavScreen> with RelativeScale {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               child: Container(
+                // color: Colors.white,
                 width: Width(context),
                 child: Column(
                   children: [
@@ -284,8 +285,9 @@ class _FavScreenState extends State<FavScreen> with RelativeScale {
           // Image.asset('assets/images/chatico.png',
           //   width: Width(context) * 0.2,
           // ),
-          Image.asset('assets/images/emptyimg.png',
-            width: Width(context) * 0.5,
+          Image.asset('assets/images/no_fav.png',
+          // Image.asset('assets/images/emptyimg.png',
+            width: Width(context) * 0.7,
           ),
           SizedBox(height: sy(10),),
           Text(Lang("No favourite listing found  ", "لم يتم العثور على قائمة مفضلة  "), style: ts_Regular(sy(n), fc_3),),

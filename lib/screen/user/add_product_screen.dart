@@ -2216,7 +2216,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                     width: Width(context),
                     decoration: decoration_round(
                         (int.parse(expire) > int.parse(CustomeDate.expdate()))
-                            ? Colors.green.shade50
+                            ? Colors.green
                             : Colors.red.shade50,
                         sy(5),
                         sy(5),
@@ -2300,18 +2300,18 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                                 apiTest('Free');
                                 paid = '1';
                                 expire = CustomeDate.expdate(
-                                    addDays: int.parse(Const.packageList[i]
-                                            ['days']
-                                        .toString()));
+                                    addDays: int.parse(Const.packageList[i]['days'].toString())
+                                );
                               } else {
-                                // executeRegularPayment(
 
+                                // executeRegularPayment(
                                 //     Const.packageList[i]['price'],
                                 //     Const.packageList[i]['days']);
-                                var amount = double.tryParse(Const
-                                        .packageList[i]['price']
-                                        .toString()) ??
-                                    0.0;
+
+                                var amount = double.tryParse(
+
+                                    Const.packageList[i]['price']
+                                        .toString()) ?? 0.0;
 
                                 // TapPaymentHelper.instance.setupSDKSession(
                                 //   amount: amount,
@@ -2358,7 +2358,6 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                                     ),
                                   ),
                                 );*/
-
                                 /*  mfHelper.initialPayment(
                                   amount: amount,
                                 );

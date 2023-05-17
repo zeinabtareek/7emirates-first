@@ -205,7 +205,8 @@ class _ChatHistoryState extends State<ChatHistory> with RelativeScale {
     return Container(
       width: Width(context),
       height: Height(context),
-      color: fc_bg_mild,
+      color: fc_bg,
+      // color: fc_bg_mild,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,8 +337,9 @@ class _ChatHistoryState extends State<ChatHistory> with RelativeScale {
           //   width: Width(context) * 0.2,
           // ),
           Image.asset(
-            'assets/images/emptyimg.png',
-            width: Width(context) * 0.5,
+            'assets/images/no_chat.png',
+            // 'assets/images/emptyimg.png',
+            width: Width(context) * 0.7,
           ),
           SizedBox(
             height: sy(10),

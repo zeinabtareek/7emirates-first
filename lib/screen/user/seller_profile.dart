@@ -102,8 +102,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen>
       },
       home: Container(
           color: fc_bg,
-          child: SafeArea(
-            child: ScaffoldMessenger(
+          child:  ScaffoldMessenger(
               key: _scaffoldKey,
               child: Scaffold(
                 body: Container(
@@ -171,7 +170,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen>
                   ),
                 ),
               ),
-            ),
+
           )),
     );
     ;

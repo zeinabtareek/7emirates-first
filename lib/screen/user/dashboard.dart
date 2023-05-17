@@ -28,7 +28,6 @@ import 'package:sevenemirates/utils/style_sheet.dart';
 import 'package:http/http.dart' as http;
 import 'package:sevenemirates/utils/urls.dart';
 import 'package:flutter_blurhash/src/blurhash_widget.dart';
-
 import '../../components/image_viewer.dart';
 import '../../layout/product_card.dart';
 import 'add_product_screen.dart';
@@ -68,17 +67,11 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
   String mapCity = '';
   String skipSignup = '';
   final photos=[
-    'https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
-    'https://jssors8.azureedge.net/demos/image0--slider/img/px-beach-daylight-fun-1430675-image.jpg',
+    'https://drivexotic.com/wp-content/uploads/2022/08/AMG-2-scaled.jpg',
+    'https://drivexotic.com/wp-content/uploads/2022/08/AMG-2-scaled.jpg',
+    'https://drivexotic.com/wp-content/uploads/2022/08/AMG-2-scaled.jpg',
+    'https://drivexotic.com/wp-content/uploads/2022/08/AMG-2-scaled.jpg',
+    'https://drivexotic.com/wp-content/uploads/2022/08/AMG-2-scaled.jpg'
   ];
   int currentImageIndex=0;
   @override
@@ -395,7 +388,7 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
                 child: SizedBox(
                   width: Width(context)/1.4,
                   height: Width(context)/2,
-                    child: Text('Genuine Service has identified unlicensed Adobe apps on your device. In an effort to block fraudulent activity and help safeguard your machine, Adobe may disable the identified unlicensed Adobe ap',style:  ts_Regular(sy(s), Colors.black),))),
+                    child: Text('Genuine Service has identified unlicensed Adobe apps othe identified unlicensed Adobe ap',style:  ts_Regular(sy(s), Colors.black),))),
           ],
         ),
       )),]
@@ -426,6 +419,7 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
               items: photos
                   .map(
                     (item) =>
+
                     Container(
                       clipBehavior: Clip.antiAlias,
                       width: MediaQuery
@@ -489,27 +483,25 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
                 AnimatedSmoothIndicator(
                   activeIndex: currentImageIndex,
                   count:  photos.length<7?photos.length:7,
-                  effect:   WormEffect(
+                  effect:   ExpandingDotsEffect(
                     spacing: 8.0,
                     radius: 1.0,
-                    dotWidth: 40,
-                    dotHeight: 3.0,
-                    paintStyle: PaintingStyle.stroke,
+                    dotWidth: 10,
+                    dotHeight: 4.0,
+                    // paintStyle: PaintingStyle.stroke,
                     strokeWidth: 1.5,
                     dotColor: fc_bg!,
-                    activeDotColor: fc_bg!,
+                    activeDotColor:fc_bg!,
+
                   ),
                 ),
                ],
             )),
-
-
         Positioned(
           top: sy(35),
           right: 0,
           left: 0,
-          child:    Container(
-        // color: Colors.red,
+          child: Container(
         color: Colors.transparent,
         width: Width(context),
         // margin: EdgeInsets.fromLTRB(sy(10), sy(0), sy(10), sy(10)),
@@ -561,14 +553,31 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
                                   //         ),
                                   //       ),
                                   //     )),
-                                  Image.network(
-                                     Urls.imageLocation +
-                                      Const.categoryList[i]["c_image"]
-                                          .toString(),
-                                    width: Width(context)/9,
-                                    height: Width(context)/9,
-                                    fit: BoxFit.fill,
-                                   ),
+                                  // ColorFiltered(
+                                  //   colorFilter: ColorFilter.mode(Colors.transparent, BlendMode.clear),
+                                  //   child: CachedNetworkImage(
+                                  //     imageUrl: Urls.imageLocation +
+                                  //         Const.categoryList[i]["c_image"].toString(),
+                                  //     width: Width(context)/9,
+                                  //     height: Width(context)/9,
+                                  //     fit: BoxFit.fill,
+                                  //   ),
+                               Image.network(
+                                      Urls.imageLocation +
+                                          Const.categoryList[i]["c_image"].toString(),
+                                      width: Width(context)/9,
+                                      height: Width(context)/9,
+                                      fit: BoxFit.fill,
+                                     ),
+                                  // )
+                                  // Image.network(
+                                  //    Urls.imageLocation +
+                                  //     Const.categoryList[i]["c_image"]
+                                  //         .toString(),
+                                  //   width: Width(context)/9,
+                                  //   height: Width(context)/9,
+                                  //   fit: BoxFit.fill,
+                                  //  ),
                                   SizedBox(
                                     height: sy(4),
                                   ),
@@ -638,12 +647,6 @@ class _DashboardState extends State<Dashboard> with RelativeScale {
         ),
 
        ),
-        // Stack(
-        //   children: [
-
-            // )
-
-
       ]
     );
   }
