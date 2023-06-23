@@ -22,6 +22,22 @@
           }
         },
         {
+          "client_id": "510571579912-928942c3mk9uu8sf68eduqo6kgi2enon.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebtasm.sevenemirates",
+            "certificate_hash": "f753e4dcfa3c7bee967c78445fb5bce1dce048dd"
+          }
+        },
+        {
+          "client_id": "510571579912-deq2nnur88fqn66d52njgro4le7gibds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebtasm.sevenemirates",
+            "certificate_hash": "8f2cc80127cd72d46056ce534845f318a30d2894"
+          }
+        },
+        {
           "client_id": "510571579912-occ0rkfn8i4scm20m8u40lsiepi5st52.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -45,6 +61,13 @@
             {
               "client_id": "510571579912-c98cgv65cs5op4pc17no4598hipmv8dv.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "510571579912-j5tlpd9d0idlciih223rl6ittajg8al0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ebtasm.sevenemirates"
+              }
             }
           ]
         }

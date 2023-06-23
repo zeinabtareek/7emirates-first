@@ -67,13 +67,13 @@ class _ProductCardMainState extends State<ProductCardMain> with RelativeScale {
                         width: Width(context) * 0.27,
                         radius: sy(2),
                       ),),
-                    if(widget.getProducts[widget.i]["l_name$cur_Lang"]!=null) Positioned(
+                    if(widget.getProducts[widget.i]["l_name$cur_Lang"]!=null)
+                      Positioned(
                         bottom: 0,
                         left: 0,
                         right: 0,
                         child: Container(
                           decoration: decoration_round(Color(int.parse("0xFF"+widget.getProducts[widget.i]["l_color"].toString().substring(1))).withOpacity(0.8), 0, 0, 0, 0),
-
                           alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(sy(2), sy(2), sy(2), sy(2)),

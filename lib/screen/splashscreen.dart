@@ -21,7 +21,7 @@ import 'package:sevenemirates/utils/style_sheet.dart';
 import 'package:sevenemirates/utils/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'user/dashboard.dart';
+import 'user/dashboard/dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -77,6 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _getCurrencyValue() async {
     print(phone.toString() + "Phonevvv");
+    print('Urls.apiKey ${Urls.apiKey}');
     final response = await http.get(Uri.parse(Urls.CurrencyAPI), headers: {
       // HttpHeaders.acceptHeader: Const.POSTHEADER,
       'apiKey': Urls.apiKey,

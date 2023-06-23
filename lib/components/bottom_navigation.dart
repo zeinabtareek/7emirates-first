@@ -27,7 +27,8 @@ import 'package:sevenemirates/screen/user/chat_history.dart';
 import 'package:sevenemirates/screen/user/user_profile.dart';
 import 'package:sevenemirates/utils/style_sheet.dart';
 import '../router/open_screen.dart';
-import '../screen/user/add_product_screen.dart';
+import '../screen/choose_ads_type/choose_ads_type.dart';
+import '../screen/user/add_product_screen/add_product_screen.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   BuildContext mcontext;
@@ -74,7 +75,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget>
   getSharedStore() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      // UserId = prefs.getString(Const.UID) ?? '';
+      UserId = prefs.getString(Const.UID) ?? '';
       UserId = Provider.of<AppSetting>(context, listen: false).uid;
 
       skipSignup = Provider.of<AppSetting>(context, listen: false).skipSignup;
@@ -119,7 +120,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget>
                 GestureDetector(
                     onTap: () {
                       if (ishome == true) {
-                        //  Navigator.pushReplacement(mcontext, OpenScreen(widget: UserProfile()));
+                         //
+                         // Navigator.pushReplacement(mcontext, OpenScreen(widget: UserProfile()));
                       } else {
                         Navigator.of(mcontext).pop();
                       }
@@ -151,10 +153,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget>
                     } else {
                       if (ishome == true) {
                         Navigator.push(
-                            mcontext, OpenScreen(widget: AddProduct()));
+                            mcontext, OpenScreen(widget: ChooseType()));
+                            // mcontext, OpenScreen(widget: AddProduct()));
                       } else {
                         Navigator.pushReplacement(
-                            mcontext, OpenScreen(widget: AddProduct()));
+
+                            mcontext, OpenScreen(widget: ChooseType()));
+                            // mcontext, OpenScreen(widget: AddProduct()));
                       }
                     }
                   },
@@ -168,28 +173,28 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget>
                     ),
                   ),
                 ),
-                GestureDetector(
-                    onTap: () {
-                      apiTest(skipSignup + '-skip');
-                      apiTest(UserId + '-UserId');
-                      if (skipSignup == '1' || UserId == '0') {
-                        Navigator.push(
-                            context, OpenScreen(widget: PhoneNumberScreen()));
-                      } else {
-                        if (ishome == true) {
-                          Navigator.push(
-                              mcontext, OpenScreen(widget: ChatHistory()));
-                        } else {
-                          if (order != 3)
-                            Navigator.pushReplacement(
-                                mcontext, OpenScreen(widget: ChatHistory()));
-                        }
-                      }
-                    },
-                    child: bottomMenuItem(
-                        Lang('Chat', 'المحادثات'),
-                        FontAwesomeIcons.solidComment,
-                        order == 3 ? TheamPrimary : fc_3!)),
+                // GestureDetector(
+                //     onTap: () {
+                //       apiTest(skipSignup + '-skip');
+                //       apiTest(UserId + '-UserId');
+                //       if (skipSignup == '1' || UserId == '0') {
+                //         Navigator.push(
+                //             context, OpenScreen(widget: PhoneNumberScreen()));
+                //       } else {
+                //         if (ishome == true) {
+                //           Navigator.push(
+                //               mcontext, OpenScreen(widget: ChatHistory()));
+                //         } else {
+                //           if (order != 3)
+                //             Navigator.pushReplacement(
+                //                 mcontext, OpenScreen(widget: ChatHistory()));
+                //         }
+                //       }
+                //     },
+                //     child: bottomMenuItem(
+                //         Lang('Chat', 'المحادثات'),
+                //         FontAwesomeIcons.solidComment,
+                //         order == 3 ? TheamPrimary : fc_3!)),
                 GestureDetector(
                     onTap: () {
                       if (skipSignup == '1' || UserId == '0') {

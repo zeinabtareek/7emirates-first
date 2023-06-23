@@ -20,7 +20,7 @@ import 'package:sevenemirates/router/none_open_screen.dart';
 import 'package:sevenemirates/router/open_screen.dart';
 import 'package:sevenemirates/router/right_open_screen.dart';
 import 'package:sevenemirates/screen/registration/phone_number.dart';
-import 'package:sevenemirates/screen/user/dashboard.dart';
+import 'package:sevenemirates/screen/user/dashboard/dashboard.dart';
 import 'package:sevenemirates/utils/app_settings.dart';
 import 'package:sevenemirates/utils/const.dart';
 import 'package:sevenemirates/utils/shared_preferences.dart';

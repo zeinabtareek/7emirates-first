@@ -20,22 +20,49 @@ import 'package:sevenemirates/utils/shared_preferences.dart';
 import 'package:sevenemirates/utils/tap_payment_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../components/flashbar.dart';
-import '../../components/image_viewer.dart';
-import '../../components/toast_utils.dart';
-import '../../router/open_screen.dart';
-import '../../utils/app_settings.dart';
-import '../../utils/const.dart';
-import '../../utils/currency_convert.dart';
-import '../../utils/style_sheet.dart';
-import '../../utils/translation_widget.dart';
-import '../../utils/urls.dart';
-import 'dashboard.dart';
+import '../../../components/flashbar.dart';
+import '../../../components/image_viewer.dart';
+import '../../../components/toast_utils.dart';
+import '../../../router/open_screen.dart';
+import '../../../utils/app_settings.dart';
+import '../../../utils/const.dart';
+import '../../../utils/currency_convert.dart';
+import '../../../utils/style_sheet.dart';
+import '../../../utils/translation_widget.dart';
+import '../../../utils/urls.dart';
+import '../dashboard/dashboard.dart';
+import 'model/CategoryModel.dart';
+Future<List<Category>> getNewCategory({restEndPoint,adType}) async {
+  final url = Uri.parse('https://www.7emiratesapp.ae/API/mobile_api/$restEndPoint');
+  final headers = <String, String>{
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+  final data = <String, String>{
+    'type':adType.toString() ,
+    "key": '2520',
+  };
 
+  final response = await http.post(
+    url,
+    headers: headers,
+    body: data,
+  );
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    final jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+    final rawCategories = jsonResponse['catslist'] as List<dynamic>;
+    final categories = rawCategories.map((e) => Category.fromJson(e as Map<String, dynamic>)).toList();
+    return categories;
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
 class AddProduct extends StatefulWidget {
   String pid = '';
+  dynamic adType ;
 
-  AddProduct({Key? key, this.pid = ''}) : super(key: key);
+  AddProduct({Key? key, this.pid = '',  required this.adType}) : super(key: key);
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -130,10 +157,11 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
   bool changePack = false;
   late MFPaymentCardView mfPaymentCardView;
   List productDetail = [];
-
+  late Future<List<Category>> _categoryListFuture;
   @override
-  void initState() {
+    initState()  {
     // log('init');
+    _categoryListFuture=   getNewCategory(restEndPoint: 'cats_by_type.php',adType:widget.adType);
     // if (Const.PAYMENTGATEWAYAPITEST.isEmpty) {
     //   setState(() {
     //     _response =
@@ -170,6 +198,15 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                 }
             });
   }
+
+
+
+  ///******
+
+
+  ///******
+
+
 
   void executeRegularPayment(String price, String days) {
     // The value 1 is the paymentMethodId of KNET payment method.
@@ -321,6 +358,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
         pageController.animateToPage(1,
             duration: Duration(milliseconds: 700), curve: Curves.linear);
         print(Pid);
+        print('data::: ${data}');
       } else {
         Pop.errorTop(
             context, Lang("Something wrong", "حدث خطأ ما"), Icons.warning);
@@ -341,6 +379,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
       "mrp": sell.toString(),
       "sell": sell.toString(),
       "quantity": quantity.toString(),
+    //  "type": widget.adType.toLowerCase().toString(),
       "quantityunit": quantityUnit.toString(),
       "quantityunitarab": quantityUnitArab.toString(),
       "detail": ETdetail.text.toString(),
@@ -361,10 +400,12 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
     data = json.decode(response.body);
     debugPrint("Request--" + body.toString());
     setState(() {
+      print('data:::: $data');
       showProgress = false;
       if (data["success"] == true) {
         apiTest(data['sql'].toString());
         _Pop_showSuccessMessage(context);
+
       } else {
         Pop.errorTop(
             context, Lang("Something wrong", "حدث خطأ ما"), Icons.warning);
@@ -1093,6 +1134,7 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
   oneCategoryWidget() {
     return Container(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             height: sy(30),
@@ -1145,94 +1187,195 @@ class _AddProductState extends State<AddProduct> with RelativeScale {
                           ),
                         ],
                       )),
-                  Container(
-                    width: Width(context),
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      children: [
-                        for (int i = 0; i < Const.categoryList.length; i++)
-                          GestureDetector(
-                            child: Container(
-                              width: Width(context) * 0.25,
+                  ///OLD Cat
+                  // Container(
+                  //   width: Width(context),
+                  //   child: Wrap(
+                  //     direction: Axis.horizontal,
+                  //     children: [
+                  //       for (int i = 0; i < Const.categoryList.length; i++)
+                  //         GestureDetector(
+                  //           child: Container(
+                  //             width: Width(context) * 0.25,
+                  //             child: Container(
+                  //                 padding: EdgeInsets.fromLTRB(
+                  //                     sy(0), sy(0), sy(0), sy(0)),
+                  //                 margin: EdgeInsets.fromLTRB(
+                  //                     sy(3), sy(3), sy(3), sy(3)),
+                  //                 decoration: decoration_round(
+                  //                     (categoryID ==
+                  //                         Const.categoryList[i]['c_id']
+                  //                             .toString())
+                  //                         ? TheamPrimary
+                  //                         : Colors.grey.shade200,
+                  //                     sy(3),
+                  //                     sy(3),
+                  //                     sy(3),
+                  //                     sy(3)),
+                  //                 child: Column(
+                  //                   children: [
+                  //                     CustomeImageView(
+                  //                       image: Urls.imageLocation +
+                  //                           Const.categoryList[i]['c_image'],
+                  //                       width: Width(context) * 0.25,
+                  //                       height: Width(context) * 0.25,
+                  //                       radius: sy(0),
+                  //                       blurBackground: false,
+                  //                       fit: BoxFit.cover,
+                  //                     ),
+                  //                     SizedBox(
+                  //                       width: sy(5),
+                  //                     ),
+                  //                     Container(
+                  //                       padding: EdgeInsets.fromLTRB(
+                  //                           sy(3), sy(4), sy(3), sy(3)),
+                  //                       child: Text(
+                  //                         Const.categoryList[i]
+                  //                         ['c_name$cur_Lang'],
+                  //                         style: ts_Regular(
+                  //                             sy(s),
+                  //                             (categoryID ==
+                  //                                 Const.categoryList[i]
+                  //                                 ['c_id']
+                  //                                     .toString())
+                  //                                 ? Colors.white
+                  //                                 : fc_2),
+                  //                         maxLines: 1,
+                  //                         textAlign: TextAlign.center,
+                  //                       ),
+                  //                     )
+                  //                   ],
+                  //                 )),
+                  //           ),
+                  //           onTap: () {
+                  //             setState(() {
+                  //               categoryName = Const.categoryList[i]
+                  //               ['c_name$cur_Lang']
+                  //                   .toString();
+                  //               categoryID =
+                  //                   Const.categoryList[i]['c_id'].toString();
+                  //               print("george$categoryID");
+                  //               print("george$categoryName");
+                  //               fieldList.clear();
+                  //               //ETlist.clear();
+                  //               for (int i = 0;
+                  //               i < Const.fieldsList.length;
+                  //               i++) {
+                  //                 if (Const.fieldsList[i]['c_id'] ==
+                  //                     categoryID) {
+                  //                   fieldList.add(Const.fieldsList[i]);
+                  //                   TextEditingController Ettemp =
+                  //                   TextEditingController();
+                  //                   ETlist.add(Ettemp);
+                  //                 }
+                  //               }
+                  //               topIconGenerate();
+                  //             });
+                  //           },
+                  //         ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  ///NEW Cat
+    FutureBuilder<List<Category>>(
+    future: _categoryListFuture,
+    builder: (context, snapshot) {
+    if (snapshot.hasData) {
+    final categories = snapshot.data!;
+    return    Container(
+                      width: Width(context),
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        children: [
+                          for (int i = 0; i < categories.length; i++)
+                          // for (int i = 0; i < Const.categoryList.length; i++)
+                            GestureDetector(
                               child: Container(
-                                  padding: EdgeInsets.fromLTRB(
-                                      sy(0), sy(0), sy(0), sy(0)),
-                                  margin: EdgeInsets.fromLTRB(
-                                      sy(3), sy(3), sy(3), sy(3)),
-                                  decoration: decoration_round(
-                                      (categoryID ==
-                                              Const.categoryList[i]['c_id']
-                                                  .toString())
-                                          ? TheamPrimary
-                                          : Colors.grey.shade200,
-                                      sy(3),
-                                      sy(3),
-                                      sy(3),
-                                      sy(3)),
-                                  child: Column(
-                                    children: [
-                                      CustomeImageView(
-                                        image: Urls.imageLocation +
-                                            Const.categoryList[i]['c_image'],
-                                        width: Width(context) * 0.25,
-                                        height: Width(context) * 0.25,
-                                        radius: sy(0),
-                                        blurBackground: false,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      SizedBox(
-                                        width: sy(8),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            sy(3), sy(4), sy(3), sy(3)),
-                                        child: Text(
-                                          Const.categoryList[i]
-                                              ['c_name$cur_Lang'],
-                                          style: ts_Regular(
-                                              sy(s),
-                                              (categoryID ==
-                                                      Const.categoryList[i]
-                                                              ['c_id']
-                                                          .toString())
-                                                  ? Colors.white
-                                                  : fc_2),
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
+                                width: Width(context) * 0.25,
+                                child: Container(
+                                    padding: EdgeInsets.fromLTRB(
+                                        sy(0), sy(0), sy(0), sy(0)),
+                                    margin: EdgeInsets.fromLTRB(
+                                        sy(3), sy(3), sy(3), sy(3)),
+                                    decoration: decoration_round(
+                                        (categoryID ==categories[i].id)
+                                          // (categoryID ==
+                                          //       Const.categoryList[i]['c_id']
+                                          //           .toString())
+                                            ? TheamPrimary
+                                            : Colors.grey.shade200,
+                                        sy(3),
+                                        sy(3),
+                                        sy(3),
+                                        sy(3)),
+                                    child: Column(
+                                      children: [
+                                        CustomeImageView(
+                                          image: Urls.imageLocation +categories[i].image,
+                                          width: Width(context) * 0.25,
+                                          height: Width(context) * 0.25,
+                                          radius: sy(0),
+                                          blurBackground: false,
+                                          fit: BoxFit.cover,
                                         ),
-                                      )
-                                    ],
-                                  )),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                categoryName = Const.categoryList[i]
-                                        ['c_name$cur_Lang']
-                                    .toString();
-                                categoryID =
-                                    Const.categoryList[i]['c_id'].toString();
-                                print("george$categoryID");
-                                print("george$categoryName");
-                                fieldList.clear();
-                                //ETlist.clear();
-                                for (int i = 0;
-                                    i < Const.fieldsList.length;
-                                    i++) {
-                                  if (Const.fieldsList[i]['c_id'] ==
-                                      categoryID) {
-                                    fieldList.add(Const.fieldsList[i]);
-                                    TextEditingController Ettemp =
-                                        TextEditingController();
-                                    ETlist.add(Ettemp);
+                                        SizedBox(
+                                          width: sy(5),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.fromLTRB(
+                                              sy(3), sy(4), sy(3), sy(3)),
+                                          child: Text('${categories[i].name}${cur_Lang}',
+
+                                            style: ts_Regular(
+                                                sy(s),
+                                                (categoryID ==
+                                                    categories[i].id
+                                                            .toString())
+                                                    ? Colors.white
+                                                    : fc_2),
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  categoryName = '${categories[i].name}${cur_Lang}';
+                                  categoryID =categories[i].id;
+                                  print("george$categoryID");
+                                  print("george$categoryName");
+                                  fieldList.clear();
+                                  //ETlist.clear();
+                                  for (int i = 0;
+                                      i < Const.fieldsList.length;
+                                      i++) {
+                                    if (Const.fieldsList[i]['c_id'] ==
+                                        categoryID) {
+                                      fieldList.add(Const.fieldsList[i]);
+                                      TextEditingController Ettemp =
+                                          TextEditingController();
+                                      ETlist.add(Ettemp);
+                                    }
                                   }
-                                }
-                                topIconGenerate();
-                              });
-                            },
-                          ),
-                      ],
-                    ),
-                  ),
+                                  topIconGenerate();
+                                });
+                              },
+                            ),
+                        ],
+                      ),
+                    );
+
+    } else if (snapshot.hasError) {
+    return Text('Error: ${snapshot.error}',style: TextStyle(color: Colors.red),);
+    } else {
+    return const CircularProgressIndicator();
+    }
+    },
+    ),
+
                   SizedBox(
                     height: sy(30),
                   ),

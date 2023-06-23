@@ -19,7 +19,8 @@ import '../../utils/app_settings.dart';
 import '../../utils/const.dart';
 import '../../utils/style_sheet.dart';
 import '../../utils/urls.dart';
-import 'add_product_screen.dart';
+import '../choose_ads_type/choose_ads_type.dart';
+import 'add_product_screen/add_product_screen.dart';
 
 class UserPostingScreen extends StatefulWidget {
   UserPostingScreen({Key? key}) : super(key: key);
@@ -156,7 +157,8 @@ class _UserPostingScreenState extends State<UserPostingScreen> with RelativeScal
               backgroundColor: TheamPrimary,
               //Floating action button on Scaffold
               onPressed: () {
-                Navigator.push(context, OpenScreen(widget: AddProduct()));
+                Navigator.push(context, OpenScreen(widget: ChooseType()));
+                // Navigator.push(context, OpenScreen(widget: AddProduct()));
               },
               child: Icon(
                 Icons.send,

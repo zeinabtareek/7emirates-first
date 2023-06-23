@@ -1302,7 +1302,7 @@ class _EditProfileState extends State<EditProfile> with RelativeScale {
       Map results = Map();
       try {
         results = await Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => MapScreen()));
+            .push(MaterialPageRoute(builder: (context) => MapScreen( )));
         ;
         if (results != null) {
           setState(() {

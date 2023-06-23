@@ -139,6 +139,21 @@ class Const {
     {"id": "19", "lable": "unit", "lable_arab": "وحدة"},
   ];
   static List categoryList = [];
+  static List adsList = [
+    'VIP',
+    'stories',
+    'general'
+  ];
+  static List adsDataList = [
+    'name',
+    'phone',
+    'details'
+  ];
+  static List adsDataList1 = [
+    ' : john Does',
+    ' :0111100101001',
+    ' : ............'
+  ];
   static List subcategoryList = [];
   static List fieldsList = [];
   static List lableList = [];

@@ -16,7 +16,7 @@ import 'package:sevenemirates/components/relative_scale.dart';
 import 'package:sevenemirates/components/url_open.dart';
 import 'package:sevenemirates/router/left_open_screen.dart';
 import 'package:sevenemirates/screen/registration/otp_screen.dart';
-import 'package:sevenemirates/screen/user/dashboard.dart';
+import 'package:sevenemirates/screen/user/dashboard/dashboard.dart';
 import 'package:sevenemirates/utils/app_settings.dart';
 import 'package:sevenemirates/utils/const.dart';
 import 'package:sevenemirates/utils/shared_preferences.dart';
